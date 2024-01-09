@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8">
+        <title>Tu tworzymy todo i widzimy listę</title>
+        <style>
+            table, th, tr, td {border: 1px solid black;}
+        </style>
+    </head>
+
+    <h2>Domowa biblioteka</h2>
+
+    <body>
+        <table>
+            <thead>
+                <th>Tytuł</th>
+                <th>Autor</th>
+                <th>Rok Wydania</th>
+                <th>Ilość stron</th>
+                <th>Język</th>
+                <th>Forma</th>
+                <th>Gatunek</th>
+                <th>Czy przeczytana?</th>
+            </thead>
+        {% for todo in todos %}
+            <tr>
+                <td><a href="/todos/{{ loop.index }}">{{ todo.title }}</a></td>
+                <td>{{ todo.author }}</td>
+                <td>{{ todo.year }}</td>
+                <td>{{ todo.number_of_pages }}</td>
+                <td>{{ todo.language }}</td>
+                <td>{{ todo.form_of }}</td>
+                <td>{{ todo.genre }}</td>
+                <td>{{ todo.done }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+        <div>
+            <h2>Dodaj nowe zadanie:</h2>
+            <form method="POST" action="/todos/">
+                {{ form.hidden_tag() }}
+                <table>
+                    {% for field in form if field.widget.input_type != 'hidden' %}
+                        <tr>
+                            <th>{{ field.label }} {% if field.flags.required %}*{% endif %}</th>
+                            <td>{{ field }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <input type="submit" value="Go">
+            </form>
+        </div>
+    </body>
+</html>
